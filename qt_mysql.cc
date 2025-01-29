@@ -9,35 +9,38 @@
 #include <QSqlError>
 #include <QMessageBox>
 #include <QPushButton>
-
+#include <QTextEdit>
 class EditDialog : public QDialog {
 public:
     EditDialog(QWidget *parent = nullptr) : QDialog(parent) {
         layout = new QVBoxLayout(this);
-        contentEdit = new QLineEdit(this);
-        metaEdit = new QLineEdit(this);
+        contentEdit = new QTextEdit(this);
+        contentEdit->setAcceptRichText(false);
+        contentEdit->setLineWrapMode(QTextEdit::WidgetWidth);
+        contextEdit = new QLineEdit(this);
         buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
 
         layout->addWidget(contentEdit);
-        layout->addWidget(metaEdit);
+        layout->addWidget(contextEdit);
         layout->addWidget(buttons);
 
         connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
         connect(buttons, &QDialogButtonBox::rejected, this, &QDialog::reject);
+        setMinimumSize(800, 600);
     }
 
     void setValues(const QString &content, const QString &meta) {
-        contentEdit->setText(content);
-        metaEdit->setText(meta);
+        contentEdit->setPlainText(content);
+        contextEdit->setText(meta);
     }
 
-    QString getContent() const { return contentEdit->text(); }
-    QString getMeta() const { return metaEdit->text(); }
+    QString getContent() const { return contentEdit->toPlainText(); }
+    QString getMeta() const { return contextEdit->text(); }
 
 private:
     QVBoxLayout *layout;
-    QLineEdit *contentEdit;
-    QLineEdit *metaEdit;
+    QTextEdit *contentEdit;
+    QLineEdit *contextEdit;
     QDialogButtonBox *buttons;
 };
 
@@ -109,7 +112,7 @@ int main(int argc, char *argv[]) {
 
     MainWindow mainWindow;
     mainWindow.setWindowTitle("Database Editor");
-    mainWindow.resize(400, 300);
+    mainWindow.resize(800, 600);
     mainWindow.show();
     
     return app.exec();
