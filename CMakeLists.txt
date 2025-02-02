@@ -20,13 +20,13 @@ set(RESOURCES resources.qrc)
 #    REQUIRED
 #)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Quick Core)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Quick Core WebSockets Charts)
 qt_add_resources(RESOURCES_RCC ${RESOURCES})
 # Add executable
 add_executable(qt_sqlite_todo qtit.cc db.cc)
 
 # Link Qt libraries
-target_link_libraries(qt_sqlite_todo PRIVATE Qt6::Widgets Qt6::Sql)
+target_link_libraries(qt_sqlite_todo PRIVATE Qt6::Widgets Qt6::Sql )
 
 add_executable(qt_qmlit qmlit.cc ${RESOURCES_RCC})
 
@@ -34,3 +34,6 @@ target_link_libraries(qt_qmlit PRIVATE Qt6::Quick)
 
 add_executable(qt_mysql qt_mysql.cc)
 target_link_libraries(qt_mysql PRIVATE Qt6::Widgets Qt6::Sql)
+
+add_executable(qt_websocket_stock qt_websocket_stock.cc)
+target_link_libraries(qt_websocket_stock PRIVATE Qt6::Widgets Qt6::WebSockets Qt6::Charts)
