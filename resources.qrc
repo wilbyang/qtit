@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>qmlit.qml</file>
+        <file>quick3d.qml</file>
     </qresource>
 </RCC>
